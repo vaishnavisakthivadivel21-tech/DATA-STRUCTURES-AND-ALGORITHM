@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Node structure */
+struct node {
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+/* Insert at specific position */
+void insertAtPos(int data, int pos) {
+    struct node *newnode, *temp;
+    int i;
+
+    newnode = (struct node *)malloc(sizeof(struct node));
+    newnode->data = data;
+
+    /* Insert at beginning */
+    if (pos == 1) {
+        if (head == NULL) {
+            head = newnode;
+            newnode->next = head;
+            return;
+        }
+
+        temp = head;
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+
+        newnode->next = head;
+        temp->next = newnode;
+        head = newnode;
+        return;
+    }
+
+    temp = head;
+    for (i = 1; i < pos - 1; i++) {
+        temp = temp->next;
+        if (temp == head) {
+            printf("Invalid position\n");
+            free(newnode);
+            return;
+        }
+    }
+
+    newnode->next = temp->next;
+    temp->next = newnode;
+}
+
+/* Display */
+void display() {
+    struct node *temp = head;
+
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+
+    printf("(head)\n");
+}
+
+int main() {
+    int n, data, pos;
+
+    printf("Enter no of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 1; i <= n; i++) {
+        printf("Enter data: ");
+        scanf("%d", &data);
+        insertAtPos(data, i);   // building list
+    }
+
+    printf("Enter data to insert: ");
+    scanf("%d", &data);
+    printf("Enter position: ");
+    scanf("%d", &pos);
+
+    insertAtPos(data, pos);
+
+    display();
+    return 0;
+}
