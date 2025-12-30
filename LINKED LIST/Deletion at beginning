@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Node structure */
+struct node {
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+/* Delete at beginning */
+void deleteBegin() {
+    struct node *temp, *last;
+
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    /* Only one node */
+    if (head->next == head) {
+        free(head);
+        head = NULL;
+        return;
+    }
+
+    last = head;
+    while (last->next != head) {
+        last = last->next;
+    }
+
+    temp = head;
+    head = head->next;
+    last->next = head;
+    free(temp);
+}
+
+/* Display */
+void display() {
+    struct node *temp = head;
+
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+
+    printf("(head)\n");
+}
+
+int main() {
+    int n, data;
+
+    printf("Enter no of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &data);
+
+        /* insert at end for testing */
+        struct node *newnode = (struct node *)malloc(sizeof(struct node));
+        newnode->data = data;
+
+        if (head == NULL) {
+            head = newnode;
+            newnode->next = head;
+        } else {
+            struct node *temp = head;
+            while (temp->next != head)
+                temp = temp->next;
+            temp->next = newnode;
+            newnode->next = head;
+        }
+    }
+
+    printf("Before deletion:\n");
+    display();
+
+    deleteBegin();
+
+    printf("After deletion:\n");
+    display();
+
+    return 0;
+}
