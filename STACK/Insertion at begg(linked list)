@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Node structure */
+struct node {
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+/* Insert at beginning */
+void insertBegin(int data) {
+    struct node *newnode, *temp;
+
+    newnode = (struct node *)malloc(sizeof(struct node));
+    newnode->data = data;
+
+    /* If list is empty */
+    if (head == NULL) {
+        head = newnode;
+        newnode->next = head;
+        return;
+    }
+
+    temp = head;
+    while (temp->next != head) {
+        temp = temp->next;
+    }
+
+    newnode->next = head;
+    temp->next = newnode;
+    head = newnode;
+}
+
+/* Display */
+void display() {
+    struct node *temp = head;
+
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+
+    printf("(head)\n");
+}
+
+int main() {
+    int n, data;
+
+    printf("Enter no of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter data: ");
+        scanf("%d", &data);
+        insertBegin(data);
+    }
+
+    display();
+    return 0;
+}
