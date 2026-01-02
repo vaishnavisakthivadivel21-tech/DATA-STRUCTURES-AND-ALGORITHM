@@ -1,0 +1,46 @@
+//DFS traversal method
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define max 10
+
+int adjmatrix[max][max];
+int visited[max];
+int n;
+
+void DFS(int vertex) {
+	printf("%d ",vertex);
+	visited[vertex]=1;
+
+		for(int i=0; i<n; i++) {
+			if(adjmatrix[vertex][i]==1 && !visited[i]) {
+			 DFS(i);
+			}
+		}
+	}
+
+int main(){
+int edge,u,v;
+printf("enter number of vertices:");
+scanf("%d",&n);
+printf("enter number of edges:");
+scanf("%d",&edge);
+
+for(int i=0;i<n;i++){
+    visited[i]=0;
+    
+for(int j=0;j<n;j++){
+    adjmatrix[i][j]=0;
+}
+}
+for(int i=0;i<edge;i++){
+    printf("enter edge(u v):");
+    scanf("%d %d",&u,&v);
+    adjmatrix[u][v]=1;
+    adjmatrix[v][u]=1;
+}
+printf("DFS traversal starting from vertex 0: ");
+DFS(0);
+return 0;
+}
